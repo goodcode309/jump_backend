@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    # 把mysql改成了localhost
+    url : jdbc:mysql://mysql:3306/webpj?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username : gallery
+    password : 20190621
+
+  freemarker:
+    checkTemplateLocation : false
+
+mybatis:
+  # 改了
+  mapper-locations : classpath:generator/*.xml
+  type-aliases-package : com.example.entity
+
+server:
+  port : 8080
+  max-http-header-size: 20480
+
+polarwk:
+  remote-address: /server/

@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "polarwk",
+      "type": "com.example.entity.PolarwkProperties",
+      "sourceType": "com.example.entity.PolarwkProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "polarwk.remote-address",
+      "type": "java.lang.String",
+      "sourceType": "com.example.entity.PolarwkProperties"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.RecordDao">
+
+  <!--创建表列名与实体类属性的映射关系-->
+  <!--返回的是instruction实体类-->
+  <resultMap id="BaseResultMap" type="com.example.entity.Record">
+    <id column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="record_time" jdbcType="DATE" property="recordTime" />
+    <result column="record_score" jdbcType="INTEGER" property="recordScore" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+  </resultMap>
+
+  <!-- 默认查询列-->
+  <sql id="Base_Column_List">
+    record_id, record_time, record_score,user_id,user_name
+  </sql>
+
+  <!--通过主键instruction_id查询--><!--返回的是一个instruction对象-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </select>
+
+  <!--通过主键instruction_id删除-->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </delete>
+
+  <!--通过实体类instruction插入记录--><!--配置keyColumn和keyProperty-->
+  <insert id="insert" keyColumn="record_id" keyProperty="recordId" parameterType="com.example.entity.Record" useGeneratedKeys="true">
+    insert into record (record_time, record_score, user_id, user_name)
+    values (#{record_time,jdbcType=DATE}, #{record_score,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, #{user_name,jdbcType=VARCHAR})
+  </insert>
+
+  <!--paintingId和content不为空时才插入记录
+  <insert id="insertSelective" keyColumn="instruction_id" keyProperty="instructionId" parameterType="com.example.entity.Instruction" useGeneratedKeys="true">
+    insert into instruction
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paintingId != null">
+        painting_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paintingId != null">
+        #{paintingId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>  -->
+
+  <!--通过instruction对象的主键更新记录--><!--paintingId,content不为空时才更新
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.Instruction">
+    update instruction
+    <set>
+      <if test="paintingId != null">
+        painting_id = #{paintingId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where instruction_id = #{instructionId,jdbcType=INTEGER}
+  </update>  -->
+
+  <!--通过instruction对象的主键更新记录-->
+  <update id="updateByPrimaryKey" parameterType="com.example.entity.Record">
+    update record
+    set record_time = #{recordTime,jdbcType=DATE},
+      record_score = #{recordScore,jdbcType=INTEGER}
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+
+  <select id="order" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from record
+    order by record_score 
+    limit 0,5
+  </select>
+
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from record
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+</mapper>
